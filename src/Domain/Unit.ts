@@ -1,6 +1,4 @@
 import { NameSpace } from "./NameSpace";
-import { INodeOutcome } from "./INodeOutcome";
-import { Node } from "./Node";
 
 export class Unit
 {
@@ -11,5 +9,3 @@ export class Unit
         public nameSpace: NameSpace
     ) { }
 }
-
-

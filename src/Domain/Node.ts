@@ -1,8 +1,8 @@
-import { EcTuple } from "./EcTuple";
+import { FcAssign } from "./FcAssign";
 
 export class Node {
     constructor(
-        public ecValues: EcTuple,
+        public ecTuple: FcAssign,
         public parent: Node | null = null
     ) { }
 }
