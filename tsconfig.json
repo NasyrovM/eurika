@@ -4,7 +4,13 @@
     "outDir": "dist",
     "esModuleInterop": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths" : {
+      "domain/*" : ["./src/domain/*"]
+    }
   },
   "exclude": ["node_modules", "./*.ts", "__test__"]
 }
