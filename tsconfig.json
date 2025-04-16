@@ -9,7 +9,7 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths" : {
-      "domain/*" : ["./src/domain/*"]
+      "~/*" : ["src/*"]
     }
   },
   "exclude": ["node_modules", "./*.ts", "__test__"]

@@ -1,5 +1,5 @@
-import { Namespace } from "../../src/domain/Namespace";
-import { Unit } from "../../src/domain/Unit";
+import { Namespace } from "~/domain/Namespace";
+import { Unit } from "~/domain/Unit";
 import { UuidUtils } from "../utils/uuidUtils";
 
 test('should create and return Namespace', () => {
