@@ -3,7 +3,7 @@ import { Namespace } from "./Namespace";
 export class Unit
 {
     subSet: Unit[] | null = null;
-    superUnits: Unit[] | null = null;
+    superSets: Unit[] | null = null;
 
     constructor(
         public uuid: string,
@@ -34,9 +34,9 @@ export class Unit
 
     private pushSuperUnits(superUnit: Unit): void
     {
-        if(this.superUnits == null) {
-            this.superUnits = [];
+        if(this.superSets == null) {
+            this.superSets = [];
         }
-        this.superUnits.push(superUnit);
+        this.superSets.push(superUnit);
     }
 }
