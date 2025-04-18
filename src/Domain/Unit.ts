@@ -1,9 +1,13 @@
+import { NodeOutcome } from "./NodeOutcome";
 import { Namespace } from "./Namespace";
+import { Node } from "./Node";
 
-export class Unit
+export class Unit implements NodeOutcome
 {
-    subSet: Unit[] | null = null;
-    superSets: Unit[] | null = null;
+    private _subSet: Unit[] | null = null;
+    private _superSets: Unit[] | null = null;
+
+
 
     constructor(
         public uuid: string,
@@ -11,6 +15,35 @@ export class Unit
         public content: string,
         public nameSpace: Namespace
     ) { }
+
+    get subSet():Unit[] | null 
+    {
+        return this._subSet;
+    }
+
+    get superSets(): Unit[] | null
+    {
+        return this._superSets;
+    }
+
+    get node(): Node {
+        return this.getNode(this);
+    }
+
+    private getNode(domainUnit: Unit)
+    {
+        const assign = new Map<Unit, Unit>();
+        assign.set(domainUnit, this);
+        const rootNode = Node.createNode(assign);
+        if(this._subSet)
+        {
+            this._subSet.forEach(subUnit => 
+            {
+                rootNode.addChild(subUnit.getNode(domainUnit));
+            });
+        }
+        return rootNode;
+    }
 
     public addChild(unit: Unit)
     {
@@ -26,17 +59,17 @@ export class Unit
 
     private pushSubSet(subUnit: Unit): void
     {
-        if(this.subSet == null) {
-            this.subSet = [];
+        if(this._subSet == null) {
+            this._subSet = [];
         }
-        this.subSet.push(subUnit);
+        this._subSet.push(subUnit);
     }
 
     private pushSuperUnits(superUnit: Unit): void
     {
-        if(this.superSets == null) {
-            this.superSets = [];
+        if(this._superSets == null) {
+            this._superSets = [];
         }
-        this.superSets.push(superUnit);
+        this._superSets.push(superUnit);
     }
 }

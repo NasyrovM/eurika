@@ -1,4 +1,4 @@
-import { FcAssign } from "./FcAssign";
+import { Assign } from "./Assign";
 import { Namespace } from "./Namespace";
 import { Unit } from "./Unit";
 
@@ -9,7 +9,7 @@ export class FunctionDomain extends Array<Unit>
 
 export class SubFuncitons extends Array<Function>{}
 
-export class FunctionAssigns extends Array<FcAssign>{}
+export class FunctionAssigns extends Array<Assign>{}
 
 export class EcFunc {
     constructor(
