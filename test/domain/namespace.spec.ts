@@ -1,5 +1,4 @@
-import { Namespace } from "~/domain/Namespace";
-import { Unit } from "~/domain/Unit";
+import { Namespace, Unit } from "~/domain";
 import { UuidUtils } from "../utils/uuidUtils";
 
 
@@ -18,6 +17,8 @@ describe('Create Unit in Namespace', () => {
     const unitName = "New Unit";
     const unitContent = "Unit Content";
     const unit = namespace.createUnit(unitName, unitContent);
+    const subUnit = namespace.createUnit("subUnit");
+    unit.addChild(subUnit);
     
     test('Create returns Unit', () => expect(unit).toBeInstanceOf(Unit));
     test('Unit name match create param', () => expect(unit.name).toBe(unitName));

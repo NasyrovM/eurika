@@ -1,4 +1,4 @@
-import { Namespace } from "~/domain/Namespace";
+import { Namespace } from "~/domain";
 
 describe("Unit subset superset", () => {
     const namespace = Namespace.createNamespace();

@@ -1,5 +1,5 @@
 import { Node } from "./Node";
 
-export interface INodeOutcome {
+export interface NodeOutcome {
     get node(): Node;
 }
