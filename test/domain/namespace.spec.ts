@@ -1,5 +1,7 @@
 import { Namespace, Unit } from "~/domain";
 import { UuidUtils } from "../utils/uuidUtils";
+import { EcFunction, FcDomain } from "~/domain/EcFunction";
+import { ITree } from "~/domain/ITree";
 
 
 describe('Namespace creating', () => {
@@ -20,9 +22,24 @@ describe('Create Unit in Namespace', () => {
     const subUnit = namespace.createUnit("subUnit");
     unit.addChild(subUnit);
     
-    test('Create returns Unit', () => expect(unit).toBeInstanceOf(Unit));
+    test('CreateUnit returns Unit', () => expect(unit).toBeInstanceOf(Unit));
     test('Unit name match create param', () => expect(unit.name).toBe(unitName));
     test('Unit content match create param', () => expect(unit.content).toBe(unitContent));
     test('Unit uuid is defined', () => expect(unit.uuid).toBeDefined());
     test('Unit uuid has UUID format', () => expect(UuidUtils.hasUUIDformat(unit.uuid)).toBeTruthy());
+});
+
+describe('Create Function in Namespace', ()=> {
+    const namespace = Namespace.createNamespace();
+    const fcName = "New Function";
+    const fcDescription = "Description";
+    const unitA = namespace.createUnit("A");
+    const unitB = namespace.createUnit("B");
+    const fcDomain = new Set<ITree>([unitA, unitB]);
+    const ecFunction = namespace.createFunction(fcName, fcDescription, fcDomain);
+
+    test('CreateFunction returns Function', () => expect(ecFunction).toBeInstanceOf(EcFunction));
+    test('Function name match create param', () => expect(ecFunction.name).toBe(fcName));
+    test('Function description match create param', () => expect(ecFunction.description).toBe(fcDescription));
+    test('Function domain match create param', () => expect(ecFunction.domain).toBe(fcDomain));
 });

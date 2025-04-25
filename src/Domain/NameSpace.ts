@@ -1,4 +1,5 @@
 import { IdService } from "../service/IdService";
+import { EcFunction, FcDomain } from "./EcFunction";
 import { Unit } from "./Unit";
 
 export class Namespace {
@@ -11,7 +12,10 @@ export class Namespace {
         public description: string
     ) { }
 
-    static createNamespace(name: string = "Unnamed namespace", description: string = ""): Namespace
+    static createNamespace(
+        name: string = "Unnamed namespace", 
+        description: string = ""
+    ): Namespace
     {
         return new Namespace(
             IdService.getUid(),
@@ -20,10 +24,28 @@ export class Namespace {
         );
     }
 
-    createUnit(name: string = "unnamed unit", content: string = ""): Unit
+    public createUnit(
+        name: string = "unnamed unit", 
+        content: string = ""
+    ): Unit
     {
         const newUnit = new Unit(IdService.getUid(), name, content, this);
         this.units.set(newUnit.uuid, newUnit);
         return newUnit;
+    }
+
+    public createFunction(
+        name: string = "unnamed funciton", 
+        description: string = "",
+        domain: FcDomain
+    ): EcFunction
+    {
+        return new EcFunction(
+            IdService.getUid(),
+            this,
+            name,
+            description,
+            domain
+        );
     }
 }

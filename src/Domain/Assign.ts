@@ -1,6 +1,6 @@
 import { Unit } from "./Unit";
 
-export class AssignDomain extends Unit {}
-export class AssignElement extends Unit {}
+export class AssignmentDomain extends Unit {}
+export class AssignmentElement extends Unit {}
 
-export class Assign extends Map<AssignDomain, AssignElement> { } 
+export class Assignment extends Map<AssignmentDomain, AssignmentElement> { } 
