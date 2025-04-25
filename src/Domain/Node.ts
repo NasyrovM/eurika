@@ -1,13 +1,13 @@
-import { Assign } from "./Assign";
+import { Assignment } from "./Assign";
 import { Unit } from "./Unit";
 
 export class Node {
 
-    private _assign : Assign;
+    private _assign : Assignment;
     private _parent : Node | null = null;
     private _children : Node[] | null = null;
 
-    public get assign(): Assign
+    public get assign(): Assignment
     {
         return this._assign;
     }
@@ -44,7 +44,7 @@ export class Node {
         // this._parent = parentNode;
     }
 
-    private constructor(assign: Assign) 
+    private constructor(assign: Assignment) 
     {
         this._assign = assign;
     }

@@ -1,8 +1,8 @@
-import { NodeOutcome } from "./NodeOutcome";
+import { ITree } from "./ITree";
 import { Namespace } from "./Namespace";
 import { Node } from "./Node";
 
-export class Unit implements NodeOutcome
+export class Unit implements ITree
 {
     private _subSet: Unit[] | null = null;
     private _superSets: Unit[] | null = null;
