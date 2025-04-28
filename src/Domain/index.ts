@@ -1,6 +1,6 @@
 export { Namespace } from "./Namespace";
 export { Unit } from "./Unit";
-export { Node } from "./Node";
-export { ITree as NodeOutcome } from "./ITree";
-export { Assignment as Assign } from "./Assign";
-export { EcFunction } from "./EcFunction";
+export { TreeNode } from "./TreeNode";
+export { ITree } from "./ITree";
+export { Assignments, Assignment, ValueDomain, ValueElement, Values } from "./Assignment";
+export { EcFunction, FcDomain } from "./EcFunction";

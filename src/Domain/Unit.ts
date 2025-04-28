@@ -1,6 +1,6 @@
 import { ITree } from "./ITree";
 import { Namespace } from "./Namespace";
-import { Node } from "./Node";
+import { TreeNode } from "./TreeNode";
 
 export class Unit implements ITree
 {
@@ -26,7 +26,7 @@ export class Unit implements ITree
         return this._superSets;
     }
 
-    get node(): Node {
+    get node(): TreeNode {
         return this.getNode(this);
     }
 
@@ -34,7 +34,7 @@ export class Unit implements ITree
     {
         const assign = new Map<Unit, Unit>();
         assign.set(domainUnit, this);
-        const rootNode = Node.createNode(assign);
+        const rootNode = TreeNode.createNode(assign);
         if(this._subSet)
         {
             this._subSet.forEach(subUnit => 

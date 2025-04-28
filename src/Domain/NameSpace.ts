@@ -1,4 +1,4 @@
-import { IdService } from "../service/IdService";
+import { IdService } from "~/service/IdService";
 import { EcFunction, FcDomain } from "./EcFunction";
 import { Unit } from "./Unit";
 

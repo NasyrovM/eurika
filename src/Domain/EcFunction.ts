@@ -1,15 +1,14 @@
-import { Assignment } from "./Assign";
+import { Assignment, Assignments, Values } from "./Assignment";
 import { Namespace } from "./Namespace";
 import { ITree } from "./ITree";
-import { Node } from "./Node";
+import { TreeNode } from "./TreeNode";
 
 export class FcDomain extends Set<ITree> {}
-export class FcAssignmenets extends Array<Assignment>{}
 
 export class EcFunction implements ITree 
 {
 
-    private _fcAssigns: FcAssignmenets = [];
+    private _assignments: Assignments = new Assignments();
     
     constructor(
         public uuid : string, 
@@ -19,12 +18,26 @@ export class EcFunction implements ITree
         private _domain: FcDomain
     ) { }
 
-    public get domain() 
+    public get domain() : FcDomain
     {
         return this._domain;
     }
 
-    get node(): Node {
-        throw new Error("Method not implemented.");
-    }    
+    get node(): TreeNode {
+        let assignments = [...this._assignments];
+        let firstAssignment = assignments[0];
+        let values = firstAssignment.values;
+        return TreeNode.createNode(values);
+    }
+    
+    public get Assignments() : Assignments
+    {
+        return this._assignments;
+    }
+
+    public createAssignment(values: Values): void
+    {
+        let assignmet = Assignment.createAssignment(this, values)
+        this._assignments.add(assignmet);
+    }
 }
