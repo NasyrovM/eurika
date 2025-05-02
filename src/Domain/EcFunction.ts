@@ -1,4 +1,5 @@
-import { Assignment, Assignments, Values } from "./Assignment";
+import { Assignment, Assignments } from "./Assignment";
+import { Values } from "./Values";
 import { Namespace } from "./Namespace";
 import { ITree } from "./ITree";
 import { TreeNode } from "./TreeNode";
@@ -23,11 +24,39 @@ export class EcFunction implements ITree
         return this._domain;
     }
 
-    get node(): TreeNode {
-        let assignments = [...this._assignments];
-        let firstAssignment = assignments[0];
-        let values = firstAssignment.values;
-        return TreeNode.createNode(values);
+    get node(): TreeNode 
+    {
+        const nodes = [] as TreeNode[];
+        this._domain.forEach(x => nodes.push(x.node));
+        return this.reqNode(new Values(), nodes, null);
+    }
+
+    private reqNode(prefix: Values, nodes : TreeNode[], parent: TreeNode | null) : TreeNode
+    {
+        if(nodes.length == 0)
+        {
+            return TreeNode.createNode(prefix, parent);
+        }
+        const head = nodes[0];
+        const tail = nodes.slice(1);
+        if(!head.children)
+        {
+            return this.reqNode(prefix.concat(head.values), tail, parent);
+        }
+        
+        let values = new Values().concat(prefix);
+        nodes.forEach(x => {values = values.concat(x.values);});
+
+        const node = TreeNode.createNode(values, parent);
+        head.children?.forEach(child => 
+        {
+            const childNodes = [child];
+            childNodes.push(...tail);
+            const childOut = this.reqNode(prefix, childNodes, parent);
+            childOut.setParent(node);
+            node.addChild(childOut);
+        });
+        return node;
     }
     
     public get Assignments() : Assignments

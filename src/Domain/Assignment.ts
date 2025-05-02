@@ -1,11 +1,7 @@
 import { IdService } from "~/service/IdService";
 import { EcFunction } from "./EcFunction"
 import { Unit } from "./Unit";
-
-export class ValueDomain extends Unit {}
-export class ValueElement extends Unit {}
-
-export class Values extends Map<ValueDomain, ValueElement>{}
+import { Values } from "./Values";
 
 export class Assignment
 {

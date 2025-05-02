@@ -1,4 +1,4 @@
-import { Values } from "./Assignment";
+import { Values } from "./Values";
 import { Unit } from "./Unit";
 
 export class TreeNode {
@@ -39,19 +39,31 @@ export class TreeNode {
         child.setParent(this);
     }
 
-    private setParent(parentNode: TreeNode)
+    public setParent(parentNode: TreeNode)
     {
-        // this._parent = parentNode;
+        this._parent = parentNode;
     }
 
-    private constructor(values: Values) 
+    private constructor(values: Values, parent: TreeNode | null) 
     {
         this._values = values;
+        this._parent = parent;
     }
 
-    public static createNode(values: Map<Unit, Unit>): TreeNode 
+    public toString = () => 
     {
-        const node = new TreeNode(values);
+        let childrenString = "";
+        if(this.children)
+        {
+            childrenString = "[" + this.children.map(x => x.toString())
+            .reduce((all, item) => all + "," + item, "").substring(1) + "]";
+        }
+        return `(${this.values.toString()})${childrenString}`; 
+    };
+
+    public static createNode(values: Values, parent: TreeNode | null): TreeNode 
+    {
+        const node = new TreeNode(values, parent);
         return node;
     }
 }
