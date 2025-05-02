@@ -1,6 +1,6 @@
-import { Namespace } from "~/domain";
+import { Namespace, Values } from "~/domain";
 
-describe("ITree unit implementation", () => {
+describe("Unit ITree implementation", () => {
     const namespace = Namespace.createNamespace();
     const unitSingle = namespace.createUnit("UnitSingle");
     const superUnit = namespace.createUnit("SuperUnit");
@@ -11,7 +11,7 @@ describe("ITree unit implementation", () => {
 
     test("Node outcome for single unit", () => 
     {
-        expect(unitSingle.node.values).toEqual(new Map([[unitSingle, unitSingle]]));
+        expect(unitSingle.node.values).toEqual(new Values([[unitSingle, unitSingle]]));
     });
 
     test("Node Assignments should has only one key-value pair", () => 
@@ -35,4 +35,8 @@ describe("ITree unit implementation", () => {
         const childDomains  = rootNode.children?.map(x => [...x.values][0][0].uuid);
         expect(childDomains?.every(nodeUuid => nodeUuid == superUnit.uuid)).toBeTruthy();
     });
+
+    test("Super unit node representation should be equal to string", 
+        () => expect(superUnit.node.toString())
+        .toEqual("(SuperUnit:SuperUnit)[(SuperUnit:SubUnitOne),(SuperUnit:SubUnitTwo)]"));
 });

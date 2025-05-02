@@ -1,13 +1,12 @@
 import { ITree } from "./ITree";
 import { Namespace } from "./Namespace";
 import { TreeNode } from "./TreeNode";
+import { Values } from "./Values";
 
 export class Unit implements ITree
 {
     private _subSet: Unit[] | null = null;
     private _superSets: Unit[] | null = null;
-
-
 
     constructor(
         public uuid: string,
@@ -15,6 +14,8 @@ export class Unit implements ITree
         public content: string,
         public nameSpace: Namespace
     ) { }
+
+    public toString = () => this.name;
 
     get subSet():Unit[] | null 
     {
@@ -27,19 +28,19 @@ export class Unit implements ITree
     }
 
     get node(): TreeNode {
-        return this.getNode(this);
+        return this.getNode(this, null);
     }
 
-    private getNode(domainUnit: Unit)
+    private getNode(domainUnit: Unit, parent : TreeNode | null)
     {
-        const assign = new Map<Unit, Unit>();
+        const assign = new Values();
         assign.set(domainUnit, this);
-        const rootNode = TreeNode.createNode(assign);
+        const rootNode = TreeNode.createNode(assign, parent);
         if(this._subSet)
         {
             this._subSet.forEach(subUnit => 
             {
-                rootNode.addChild(subUnit.getNode(domainUnit));
+                rootNode.addChild(subUnit.getNode(domainUnit, rootNode));
             });
         }
         return rootNode;

@@ -1,4 +1,4 @@
-import { Namespace, ITree, TreeNode, Values } from "~/domain";
+import { Namespace, ITree, TreeNode, Values, FcDomain } from "~/domain";
 
 describe('EcFunction ITree implementation', () => 
 {
@@ -16,13 +16,16 @@ describe('EcFunction ITree implementation', () =>
     unitB.addChild(unitB1);
     unitB.addChild(unitB2);
 
-    const fcDomain = new Set<ITree>([unitA, unitB]);
+    const fcDomain = new FcDomain([unitA, unitB]);
 
     const ecFunction = namespace.createFunction(fcName, fcDescription, fcDomain);
     ecFunction.createAssignment(new Values([[unitA, unitA], [unitB, unitB]]));
+    const treeNode = ecFunction.node;
     
     test('EcFunction has assignment', () => expect(ecFunction.Assignments.size).toBeGreaterThan(0));
-    test('EcFunction node has type Node', () => expect(ecFunction.node).toBeInstanceOf(TreeNode));
+    test('EcFunction node has type Node', () => expect(treeNode).toBeInstanceOf(TreeNode));
+    test('TreeNode has two child', () => expect(treeNode.children?.length).toEqual(2));
+    test('TreeNode values has two dimentions', () => expect(treeNode.values.size).toEqual(2));
     // full outcome vs valueable outcome
     // make unit x unit 
     // make unit x function
