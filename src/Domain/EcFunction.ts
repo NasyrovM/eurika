@@ -3,8 +3,10 @@ import { Values } from "./Values";
 import { Namespace } from "./Namespace";
 import { ITree } from "./ITree";
 import { TreeNode } from "./TreeNode";
+import { Coverage } from "./Coverage";
 
 export class FcDomain extends Set<ITree> {}
+;
 
 export class EcFunction implements ITree 
 {
@@ -26,14 +28,16 @@ export class EcFunction implements ITree
 
     get node(): TreeNode 
     {
+        const coverage = new Coverage();
+        this.Assignments.forEach(assigment => coverage.set(assigment, assigment.coverValues()));
         const nodes = [] as TreeNode[];
-        this._domain.forEach(x => nodes.push(x.node));
+        this._domain.forEach(x => nodes.push(x.node));         
         return this.reqNode(new Values(), nodes, null);
     }
 
     private reqNode(prefix: Values, nodes : TreeNode[], parent: TreeNode | null) : TreeNode
     {
-        if(nodes.length == 0)
+        if(!nodes.length)
         {
             return TreeNode.createNode(prefix, parent);
         }
@@ -53,7 +57,6 @@ export class EcFunction implements ITree
             const childNodes = [child];
             childNodes.push(...tail);
             const childOut = this.reqNode(prefix, childNodes, parent);
-            childOut.setParent(node);
             node.addChild(childOut);
         });
         return node;
@@ -64,9 +67,10 @@ export class EcFunction implements ITree
         return this._assignments;
     }
 
-    public createAssignment(values: Values): void
+    public createAssignment(values: Values): Assignment
     {
-        let assignmet = Assignment.createAssignment(this, values)
+        const assignmet = Assignment.createAssignment(this, values)
         this._assignments.add(assignmet);
+        return assignmet;
     }
 }

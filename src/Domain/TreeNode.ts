@@ -66,4 +66,9 @@ export class TreeNode {
         const node = new TreeNode(values, parent);
         return node;
     }
+
+    public getLeafValues = () :Values[] => (this.children?.length)
+         ? this.children.reduce((all, child) => all.concat(child.getLeafValues()), [] as Values[])
+         : [this.values];
+
 }
