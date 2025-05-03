@@ -1,4 +1,5 @@
-import { Namespace, ITree, TreeNode, Values, FcDomain } from "~/domain";
+import { arrayUtils } from "test/utils/arrayUtils";
+import { Namespace, TreeNode, Values, FcDomain } from "~/domain";
 
 describe('EcFunction ITree implementation', () => 
 {
@@ -19,13 +20,22 @@ describe('EcFunction ITree implementation', () =>
     const fcDomain = new FcDomain([unitA, unitB]);
 
     const ecFunction = namespace.createFunction(fcName, fcDescription, fcDomain);
-    ecFunction.createAssignment(new Values([[unitA, unitA], [unitB, unitB]]));
+    const assignment = ecFunction.createAssignment(new Values([[unitB, unitB],[unitA, unitA]]));
     const treeNode = ecFunction.node;
+    const coverage = assignment.node.getLeafValues().map(x => `(${x.toString()})`);
+    const coverageStr = arrayUtils.split(coverage);
     
     test('EcFunction has assignment', () => expect(ecFunction.Assignments.size).toBeGreaterThan(0));
     test('EcFunction node has type Node', () => expect(treeNode).toBeInstanceOf(TreeNode));
     test('TreeNode has two child', () => expect(treeNode.children?.length).toEqual(2));
     test('TreeNode values has two dimentions', () => expect(treeNode.values.size).toEqual(2));
+
+    test('Assignment should generate correct treeNode', () => expect(assignment.node.toString())
+        .toEqual("(B:B|A:A)[(B:B1|A:A)[(B:B1|A:A1),(B:B1|A:A2)],(B:B2|A:A)[(B:B2|A:A1),(B:B2|A:A2)]]"));
+    
+    test('Assignment should generate correct values coverage array', () => expect(coverageStr)
+        .toEqual("(B:B1|A:A1),(B:B1|A:A2),(B:B2|A:A1),(B:B2|A:A2)"));
+    
     // full outcome vs valueable outcome
     // make unit x unit 
     // make unit x function

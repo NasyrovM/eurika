@@ -3,7 +3,6 @@ import { Unit } from "./Unit";
 export class ValueDomain extends Unit {}
 export class ValueElement extends Unit {}
 
-
 export class Values extends Map<ValueDomain, ValueElement> {
     
     public concat(values: Values): Values 
@@ -19,5 +18,11 @@ export class Values extends Map<ValueDomain, ValueElement> {
         let result : string = "";
         this.forEach((val, key) => { result = result.concat("|", key.toString() + ":" + val.toString()); } );
         return result.substring(1);
+    }
+
+    public headTail() : [ValueDomain, ValueElement, Values] //#todo move to Core
+    {
+        const pairArray = [...this];
+        return [pairArray[0][0], pairArray[0][1], new Values(pairArray.slice(1))];
     }
 }
