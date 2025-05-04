@@ -23,31 +23,26 @@ export class Assignment implements ITree
     }
 
     public get node(): TreeNode {
-        return this.recursiveNode(new Values(), this.values, null);
+        return this.recursiveNode(new Values(), this.values);
     }
 
-    public coverValues(): Values[]
-    {
-        return [] as Values[];
-    }
-
-    private recursiveNode(prefix: Values, values: Values, parent: TreeNode|null = null) : TreeNode
+    private recursiveNode(prefix: Values, values: Values) : TreeNode
     {
         if(!values.size)
         {            
-            return TreeNode.createNode(prefix, parent);
+            return TreeNode.createNode(prefix);
         }
         const [domain, element, tail] = values.headTail();
         if(!element.subSet?.length)
         {
-            return this.recursiveNode(prefix.concat(new Values([[domain, element]])), tail, parent);
+            return this.recursiveNode(prefix.concat(new Values([[domain, element]])), tail);
         }
 
-        const resultNode = TreeNode.createNode(prefix.concat(values), parent)
+        const resultNode = TreeNode.createNode(prefix.concat(values))
         element.subSet.forEach(child => 
         {
             const childValues = new Values([[domain, child]]).concat(tail);
-            const leaf  = this.recursiveNode(prefix, childValues, resultNode);
+            const leaf  = this.recursiveNode(prefix, childValues);
             resultNode.addChild(leaf);
         });
 

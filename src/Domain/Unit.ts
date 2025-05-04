@@ -28,19 +28,19 @@ export class Unit implements ITree
     }
 
     get node(): TreeNode {
-        return this.getNode(this, null);
+        return this.getNode(this);
     }
 
-    private getNode(domainUnit: Unit, parent : TreeNode | null)
+    private getNode(domainUnit: Unit)
     {
         const assign = new Values();
         assign.set(domainUnit, this);
-        const rootNode = TreeNode.createNode(assign, parent);
+        const rootNode = TreeNode.createNode(assign);
         if(this._subSet)
         {
             this._subSet.forEach(subUnit => 
             {
-                rootNode.addChild(subUnit.getNode(domainUnit, rootNode));
+                rootNode.addChild(subUnit.getNode(domainUnit));
             });
         }
         return rootNode;

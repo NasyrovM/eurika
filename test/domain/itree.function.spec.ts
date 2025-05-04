@@ -35,6 +35,9 @@ describe('EcFunction ITree implementation', () =>
     
     test('Assignment should generate correct values coverage array', () => expect(coverageStr)
         .toEqual("(B:B1|A:A1),(B:B1|A:A2),(B:B2|A:A1),(B:B2|A:A2)"));
+
+    test('EcFunction should generate correct treeNode', () => expect(treeNode.toString())
+        .toEqual("(A:A|B:B)[(A:A1|B:B)[(A:A1|B:B1),(A:A1|B:B2)],(A:A2|B:B)[(A:A2|B:B1),(A:A2|B:B2)]]"));
     
     // full outcome vs valueable outcome
     // make unit x unit 

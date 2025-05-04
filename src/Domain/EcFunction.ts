@@ -6,7 +6,6 @@ import { TreeNode } from "./TreeNode";
 import { Coverage } from "./Coverage";
 
 export class FcDomain extends Set<ITree> {}
-;
 
 export class EcFunction implements ITree 
 {
@@ -26,39 +25,47 @@ export class EcFunction implements ITree
         return this._domain;
     }
 
-    get node(): TreeNode 
+    get node(): TreeNode
     {
-        const coverage = new Coverage();
-        this.Assignments.forEach(assigment => coverage.set(assigment, assigment.coverValues()));
+        const coverage = Coverage.getCoverage(this);
         const nodes = [] as TreeNode[];
         this._domain.forEach(x => nodes.push(x.node));         
-        return this.reqNode(new Values(), nodes, null);
+        return this.reqNode(new Values(), nodes, coverage)??TreeNode.createNode(new Values());
     }
 
-    private reqNode(prefix: Values, nodes : TreeNode[], parent: TreeNode | null) : TreeNode
+    private reqNode(prefix: Values, nodes : TreeNode[], coverage :Coverage) : TreeNode | null
     {
         if(!nodes.length)
         {
-            return TreeNode.createNode(prefix, parent);
+            return coverage.containsValues(prefix)
+                ? TreeNode.createNode(prefix)
+                : null;
         }
         const head = nodes[0];
         const tail = nodes.slice(1);
         if(!head.children)
         {
-            return this.reqNode(prefix.concat(head.values), tail, parent);
+            return this.reqNode(prefix.concat(head.values), tail, coverage);
         }
         
         let values = new Values().concat(prefix);
         nodes.forEach(x => {values = values.concat(x.values);});
 
-        const node = TreeNode.createNode(values, parent);
+        let outChildren = [] as TreeNode[]; 
         head.children?.forEach(child => 
         {
             const childNodes = [child];
             childNodes.push(...tail);
-            const childOut = this.reqNode(prefix, childNodes, parent);
-            node.addChild(childOut);
+            const childOut = this.reqNode(prefix, childNodes, coverage);
+            if(childOut)
+            {
+                outChildren.push(childOut);
+            }
         });
+
+        if(!outChildren) return null;
+        const node = TreeNode.createNode(values);
+        outChildren.forEach(child => node.addChild(child));
         return node;
     }
     
