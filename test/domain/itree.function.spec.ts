@@ -38,6 +38,8 @@ describe('EcFunction ITree implementation', () =>
 
     test('EcFunction should generate correct treeNode', () => expect(treeNode.toString())
         .toEqual("(A:A|B:B)[(A:A1|B:B)[(A:A1|B:B1),(A:A1|B:B2)],(A:A2|B:B)[(A:A2|B:B1),(A:A2|B:B2)]]"));
+
+    test('EcFunction', () => expect(namespace.ecFunctions.length).toEqual(1));
     
     // full outcome vs valueable outcome
     // make unit x unit 

@@ -5,6 +5,7 @@ import { Unit } from "./Unit";
 export class Namespace {
 
     units: Map<string, Unit> = new Map<string, Unit>();
+    ecFunctions: EcFunction[] = [];
 
     constructor(
         public uuid: string,
@@ -40,12 +41,14 @@ export class Namespace {
         domain: FcDomain
     ): EcFunction
     {
-        return new EcFunction(
+        const ecFunction =  new EcFunction(
             IdService.getUid(),
             this,
             name,
             description,
             domain
         );
+        this.ecFunctions.push(ecFunction);
+        return ecFunction;
     }
 }
