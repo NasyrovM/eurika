@@ -6,7 +6,6 @@ import { Values } from "./Values";
 export class Unit implements ITree
 {
     private _subSet: Unit[] | null = null;
-    private _superSets: Unit[] | null = null;
 
     constructor(
         public uuid: string,
@@ -20,11 +19,6 @@ export class Unit implements ITree
     get subSet():Unit[] | null 
     {
         return this._subSet;
-    }
-
-    get superSets(): Unit[] | null
-    {
-        return this._superSets;
     }
 
     get node(): TreeNode {
@@ -48,14 +42,7 @@ export class Unit implements ITree
 
     public addChild(unit: Unit)
     {
-        unit.pushSuperUnits(this);
         this.pushSubSet(unit);
-    }
-
-    public addParent(unit: Unit)
-    {
-        this.pushSuperUnits(unit);
-        unit.pushSubSet(unit);
     }
 
     private pushSubSet(subUnit: Unit): void
@@ -64,13 +51,5 @@ export class Unit implements ITree
             this._subSet = [];
         }
         this._subSet.push(subUnit);
-    }
-
-    private pushSuperUnits(superUnit: Unit): void
-    {
-        if(this._superSets == null) {
-            this._superSets = [];
-        }
-        this._superSets.push(superUnit);
     }
 }

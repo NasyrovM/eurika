@@ -7,5 +7,4 @@ describe("Unit subset superset", () => {
 
     superUnit.addChild(subUnit);
     test("SuperUnit has child subUnit", () => expect(superUnit.subSet).toContain(subUnit));
-    test("SubUnit has superUnit as SuperSet", () => expect(subUnit.superSets).toContain(superUnit));
 });
