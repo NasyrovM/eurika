@@ -1,4 +1,4 @@
-import { TreeNode } from "./TreeNode";
+import { TreeNode } from './TreeNode';
 
 export interface ITree {
     uuid: string;
